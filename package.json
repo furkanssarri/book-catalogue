@@ -1,0 +1,27 @@
+{
+  "name": "book-catalogue",
+  "version": "1.0.0",
+  "description": "an inventory app for cataloging books, authors and genres.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/furkanssarri/book-catalogue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/furkanssarri/book-catalogue/issues"
+  },
+  "homepage": "https://github.com/furkanssarri/book-catalogue#readme",
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "pg": "^8.16.3"
+  }
+}
