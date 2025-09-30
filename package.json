@@ -4,8 +4,8 @@
   "description": "an inventory app for cataloging books, authors and genres.",
   "main": "index.js",
   "scripts": {
-    "init": "node --watch server/db/init.js",
-    "dev": "node server/app.js"
+    "init": "node server/db/init.js",
+    "dev": "node --watch server/app.js"
   },
   "repository": {
     "type": "git",

@@ -8,3 +8,16 @@ exports.allBooksGet = async (req, res) => {
     console.error(err);
   }
 };
+
+exports.singleBookGet = async (req, res) => {
+  try {
+    const bookId = parseInt(req.params.bookId);
+    const book = await db.getBookById(bookId);
+    res.render("pages/bookDetails", {
+      title: "Book Details",
+      book: book,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};

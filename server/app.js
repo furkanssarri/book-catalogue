@@ -8,7 +8,6 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-const PORT = process.env.PORT || 5000;
 
 app.get("/", (_req, res) => {
   res.render("index", { title: "Home" });
@@ -16,6 +15,7 @@ app.get("/", (_req, res) => {
 
 app.use("/books", booksRouter);
 
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, (err) => {
   if (err) {
     console.error(err);
