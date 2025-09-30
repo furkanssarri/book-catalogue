@@ -4,6 +4,7 @@ const path = require("node:path");
 
 const indexRouter = require("./routes/indexRouter.js");
 const booksRouter = require("./routes/booksRouter.js");
+const genresRouter = require("./routes/genresRouter.js");
 const expressLayouts = require("express-ejs-layouts");
 const authorsRouter = require("./routes/authorsRouter.js");
 
@@ -22,6 +23,7 @@ app.set("layout", "layout");
 app.use("/", indexRouter);
 app.use("/books", booksRouter);
 app.use("/authors", authorsRouter);
+app.use("/genres", genresRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, (err) => {

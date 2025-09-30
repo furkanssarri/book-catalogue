@@ -72,10 +72,48 @@ async function getSingleAuthor(id) {
   return rows[0];
 }
 
+async function getAllGenres() {
+  try {
+    const { rows } = await pool.query(`SELECT * FROM genres;`);
+    return rows;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function getBooksByGenre(genreId) {
+  const { rows } = await pool.query(
+    `
+    SELECT 
+      b.book_id,
+      b.title,
+      b.description,
+      b.publish_date,
+      b.isbn,
+      ARRAY_AGG(DISTINCT a.name) AS authors,
+      g.genre_name
+    FROM books b
+    LEFT JOIN book_authors ba ON b.book_id = ba.book_id
+    LEFT JOIN authors a ON ba.author_id = a.author_id
+    LEFT JOIN book_genres bg ON b.book_id = bg.book_id
+    LEFT JOIN genres g ON bg.genre_id = g.genre_id
+    WHERE g.genre_id = $1
+    GROUP BY b.book_id, g.genre_name
+    ORDER BY b.title;
+  `,
+    [genreId],
+  );
+
+  const genre_name = rows[0]?.genre_name || null; // safe fallback
+  return { filteredBooks: rows, genre_name };
+}
+
 module.exports = {
   getAllBooks,
   getBookById,
   getLatestBooks,
   getAllAuthors,
   getSingleAuthor,
+  getAllGenres,
+  getBooksByGenre,
 };

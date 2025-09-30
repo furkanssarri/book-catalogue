@@ -1,6 +1,6 @@
 const db = require("./queryDb.js");
 
-exports.allAuthorsGet = async (req, res) => {
+exports.allAuthorsGet = async (_req, res) => {
   try {
     const authors = await db.getAllAuthors();
     res.render("pages/authors", { title: "All authors", authors: authors });

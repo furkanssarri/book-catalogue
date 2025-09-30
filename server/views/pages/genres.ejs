@@ -1,0 +1,27 @@
+<div class="container py-4">
+  <h1 class="mb-4 text-center"><%= title %></h1>
+
+  <% if (genres && genres.length > 0) { %>
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
+      <% genres.forEach(genre => { %>
+        <div class="col">
+          <div class="card h-100 shadow-sm text-center">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+              <h6 class="card-title fw-bold mb-1">
+                <a href="/genres/<%= genre.genre_id %>" class="text-decoration-none stretched-link">
+                  <%= genre.genre_name %>
+                </a>
+              </h6>
+              <% /* Optional: count of books in this genre */ %>
+              <% if (genre.book_count !== undefined) { %>
+                <p class="text-muted small mb-0"><%= genre.book_count %> books</p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p class="text-center text-muted">No genres found.</p>
+  <% } %>
+</div>
