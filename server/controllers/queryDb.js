@@ -59,8 +59,23 @@ async function getLatestBooks(limitNumber) {
   }
 }
 
+async function getAllAuthors() {
+  const { rows } = await pool.query(`SELECT * FROM authors;`);
+  return rows;
+}
+
+async function getSingleAuthor(id) {
+  const { rows } = await pool.query(
+    `SELECT * FROM authors WHERE author_id=($1)`,
+    [id],
+  );
+  return rows[0];
+}
+
 module.exports = {
   getAllBooks,
   getBookById,
   getLatestBooks,
+  getAllAuthors,
+  getSingleAuthor,
 };

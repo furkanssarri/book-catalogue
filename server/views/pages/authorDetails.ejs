@@ -1,0 +1,22 @@
+<div class="container py-5">
+  <% if (author) { %>
+    <div class="row">
+      <!-- Author Info -->
+      <div class="col-lg-8 mx-auto">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h1 class="card-title fw-bold mb-3"><%= author.name %></h1>
+            <h5 class="text-muted mb-4">
+              <i class="bi bi-geo-alt me-2"></i><%= author.country || "Unknown" %>
+            </h5>
+            <p class="card-text fs-6" style="white-space: pre-line;">
+              <%= author.bio || "No biography available for this author." %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% } else { %>
+    <p class="text-center text-muted">Author not found.</p>
+  <% } %>
+</div>
