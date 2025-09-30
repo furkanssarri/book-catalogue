@@ -1,0 +1,95 @@
+<!-- Hero Section -->
+<section class="bg-primary text-white py-5 text-center">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Welcome to the Book Catalogue</h1>
+    <p class="lead mb-4">Explore, add, and manage your books, authors, and genres easily.</p>
+    <a href="/books" class="btn btn-light btn-lg me-2">Browse Books</a>
+    <a href="/authors" class="btn btn-outline-light btn-lg">Authors</a>
+  </div>
+</section>
+
+<!-- Optional Latest Books Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="mb-4 text-center">Latest Books</h2>
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3">
+      <% if (latestBooks && latestBooks.length) { %>
+        <% latestBooks.forEach(book => { %>
+          <div class="col">
+            <div class="card h-100 shadow-sm text-center">
+              <% if (book.isbn) { %>
+                <a href="/books/<%= book.book_id %>">
+                  <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-M.jpg"
+                       class="card-img-top"
+                       style="height: 271px; object-fit: cover;"
+                       alt="Cover of <%= book.title %>" />
+                </a>
+              <% } else { %>
+                <a href="/books/<%= book.book_id %>">
+                  <div class="bg-light d-flex align-items-center justify-content-center text-muted" style="height:150px;">
+                    No cover
+                  </div>
+                </a>
+              <% } %>
+              <div class="card-body p-2">
+                <h6 class="card-title mb-1 text-truncate">
+                  <a href="/books/<%= book.book_id %>" class="text-decoration-none text-dark stretched-link">
+                    <%= book.title %>
+                  </a>
+                </h6>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p class="text-center text-muted">No recent books added.</p>
+      <% } %>
+    </div>
+  </div>
+</section>
+<!-- Features Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row text-center g-4">
+      <!-- Books Card -->
+      <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-bold">Books</h5>
+            <p class="card-text flex-grow-1">
+              Browse and manage all books in your collection. Add new books and view detailed information.
+            </p>
+            <a href="/books" class="btn btn-primary mt-3">View Books</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Authors Card -->
+      <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-bold">Authors</h5>
+            <p class="card-text flex-grow-1">
+              Explore all authors in your database. See their works and manage their profiles easily.
+            </p>
+            <a href="/authors" class="btn btn-primary mt-3">View Authors</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Genres Card -->
+      <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-bold">Genres</h5>
+            <p class="card-text flex-grow-1">
+              Categorize and discover books by genre. Quickly filter your collection for better navigation.
+            </p>
+            <a href="/genres" class="btn btn-primary mt-3">View Genres</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
