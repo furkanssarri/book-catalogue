@@ -2,16 +2,23 @@ require("dotenv").config();
 const express = require("express");
 const path = require("node:path");
 
+const indexRouter = require("./routes/indexRouter.js");
 const booksRouter = require("./routes/booksRouter.js");
+const expressLayouts = require("express-ejs-layouts");
 
 const app = express();
+
+app.use((req, res, next) => {
+  res.locals.currentPath = req.path;
+  next();
+});
 app.use(express.urlencoded({ extended: true }));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.use(expressLayouts);
+app.set("layout", "layout");
 
-app.get("/", (_req, res) => {
-  res.render("index", { title: "Home" });
-});
+app.use("/", indexRouter);
 
 app.use("/books", booksRouter);
 

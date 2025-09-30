@@ -43,7 +43,24 @@ SELECT
   return rows[0];
 }
 
+async function getLatestBooks(limitNumber) {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT * FROM books 
+      ORDER BY created_at DESC 
+      LIMIT ($1);
+`,
+      [limitNumber],
+    );
+    return rows;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = {
   getAllBooks,
   getBookById,
+  getLatestBooks,
 };

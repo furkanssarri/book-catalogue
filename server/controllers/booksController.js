@@ -21,3 +21,15 @@ exports.singleBookGet = async (req, res) => {
     console.error(err);
   }
 };
+
+exports.latestBooksGet = async (req, res) => {
+  try {
+    const latestBooks = await db.getLatestBooks(8);
+    res.render("pages/index", {
+      title: "Home",
+      latestBooks: latestBooks,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
