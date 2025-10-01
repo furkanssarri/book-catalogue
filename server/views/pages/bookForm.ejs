@@ -1,0 +1,226 @@
+<div class="container py-5">
+  <h1 class="mb-4 text-center">Add New Book</h1>
+
+  <form 
+    id="addBookForm" 
+    method="POST" 
+    action="/newbook"
+    class="<%= errors ? 'was-validated' : '' %>"
+    novalidate
+  >
+    <!-- Title -->
+    <div class="mb-3">
+      <label for="title" class="form-label">Book Title</label>
+      <input 
+        type="text" 
+        class="form-control <%= errors && errors.title ? 'is-invalid' : '' %>"
+        id="title" 
+        name="title"
+        placeholder="Enter book title"
+        required 
+        minlength="2" 
+        maxlength="255"
+        value="<%= old ? old.title : '' %>"
+      >
+      <div class="invalid-feedback">
+        <%= errors && errors.title ? errors.title.msg : "Please provide a valid book title (1-255 characters)." %>
+      </div>
+    </div>
+
+    <!-- Author -->
+    <div class="mb-3">
+      <label for="author" class="form-label">Author</label>
+      <input 
+        type="text"
+        class="form-control <%= errors && errors.author ? 'is-invalid' : '' %>"
+        id="author"
+        name="author"
+        placeholder="Enter author name"
+        required
+        minlength="2"
+        maxlength="100"
+        value="<%= old ? old.author : '' %>"
+      >
+      <div class="invalid-feedback">
+        <%= errors && errors.author ? errors.author.msg : "Please enter the author's full name (min. 2 characters)." %>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea 
+        class="form-control <%= errors && errors.description ? 'is-invalid' : '' %>" 
+        id="description" 
+        name="description"
+        rows="5" 
+        placeholder="Enter book description"
+        required
+      ><%= old ? old.description : '' %></textarea>
+      <div class="invalid-feedback">
+        <%= errors && errors.description ? errors.description.msg : "Please enter a description." %>
+      </div>
+    </div>
+
+    <!-- Publish Date -->
+    <div class="mb-3">
+      <label for="publish_date" class="form-label">Publish Date</label>
+      <input 
+        type="date" 
+        class="form-control <%= errors && errors.publish_date ? 'is-invalid' : '' %>"
+        id="publish_date" 
+        name="publish_date"
+        required
+        value="<%= old ? old.publish_date : '' %>"
+      >
+      <div class="invalid-feedback">
+        <%= errors && errors.publish_date ? errors.publish_date.msg : "Please select a valid publish date." %>
+      </div>
+    </div>
+    <!-- Genre -->
+    <div class="mb-3">
+      <label for="genre" class="form-label">Genre</label>
+      <input 
+        type="text"
+        class="form-control <%= errors && errors.genre ? 'is-invalid' : '' %>"
+        id="genre"
+        name="genre"
+        placeholder="Enter genre"
+        required
+        minlength="2"
+        maxlength="50"
+        value="<%= old ? old.genre : '' %>"
+      >
+      <div class="invalid-feedback">
+        <%= errors && errors.genre ? errors.genre.msg : "Please enter a valid genre (min. 2 characters)." %>
+      </div>
+    </div>
+    <!-- ISBN -->
+    <div class="mb-3">
+      <label for="isbn" class="form-label">ISBN</label>
+      <input 
+        type="text" 
+        class="form-control <%= errors && errors.isbn ? 'is-invalid' : '' %>"
+        id="isbn" 
+        name="isbn"
+        placeholder="Enter ISBN (10 or 13 digits, dashes allowed)"
+        required
+        pattern="^(?:[0-9]{9}[0-9Xx]|[0-9]{13})$"
+        value="<%= old ? old.isbn : '' %>"
+      >
+      <div class="invalid-feedback">
+        <%= errors && errors.isbn ? errors.isbn.msg : "Please enter a valid ISBN (10 or 13 digits)." %>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-primary w-100">Add Book</button>
+  </form>
+</div>
+
+<script>
+  (function () {
+    'use strict'
+    const form = document.getElementById('addBookForm');
+    const inputs = form.querySelectorAll("input, textarea, select" )
+
+    form.addEventListener('submit', function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+
+    // Validate on blur (per field)
+    inputs.forEach(input => {
+      input.addEventListener('blur', () => {
+        if (!input.checkValidity()) {
+          input.classList.add('is-invalid');
+          input.classList.remove('is-valid');
+        } else {
+          input.classList.add('is-valid');
+          input.classList.remove('is-invalid');
+        }
+      });
+    });
+  })();
+</script>
+<script>
+(function () {
+  'use strict';
+
+  const form = document.getElementById('addBookForm');
+  const isbnInput = document.getElementById('isbn');
+  const inputs = form.querySelectorAll('input, textarea, select');
+
+  // helper: clean an ISBN (remove dashes/spaces)
+  function cleanIsbn(val) {
+    return String(val || '').replace(/[-\s]/g, '');
+  }
+
+  // ISBN validator for cleaned string
+  const isbnRegex = /^(?:[0-9]{9}[0-9Xx]|[0-9]{13})$/;
+
+  // Per-field blur validation (immediate feedback)
+  inputs.forEach(input => {
+    input.addEventListener('blur', () => {
+      // special handling for ISBN: validate the sanitized value
+      if (input.id === 'isbn') {
+        const raw = input.value.trim();
+        const cleaned = cleanIsbn(raw);
+
+        if (!isbnRegex.test(cleaned)) {
+          input.classList.add('is-invalid');
+          input.classList.remove('is-valid');
+          // make browser-level validity reflect this, so checkValidity() behaves
+          input.setCustomValidity('Invalid ISBN');
+        } else {
+          input.classList.remove('is-invalid');
+          input.classList.add('is-valid');
+          input.setCustomValidity(''); // clear
+        }
+        return;
+      }
+
+      // default handling for other inputs (uses HTML5 constraints)
+      if (!input.checkValidity()) {
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
+      } else {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+      }
+    });
+  });
+
+  // On submit: run full validation, ensure ISBN sanitized and validated
+  form.addEventListener('submit', function (event) {
+    // sanitize isbn BEFORE letting server see it (optional UX: we keep raw shown, but we validate the cleaned version)
+    const cleanedIsbn = cleanIsbn(isbnInput.value);
+    if (!isbnRegex.test(cleanedIsbn)) {
+      event.preventDefault();
+      event.stopPropagation();
+      isbnInput.classList.add('is-invalid');
+      isbnInput.classList.remove('is-valid');
+      isbnInput.setCustomValidity('Invalid ISBN');
+      form.classList.add('was-validated');
+      return;
+    }
+
+    // Clear custom validity if ok so browser doesn't block
+    isbnInput.setCustomValidity('');
+    // Add was-validated so Bootstrap shows feedback for other fields
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+      form.classList.add('was-validated');
+    } else {
+      // Optionally set the input value to the cleaned ISBN before submitting
+      // (so the server receives only digits). Uncomment if you prefer:
+      // isbnInput.value = cleanedIsbn;
+    }
+  }, false);
+
+})();
+</script>

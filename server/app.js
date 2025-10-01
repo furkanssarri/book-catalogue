@@ -1,11 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("node:path");
+const expressLayouts = require("express-ejs-layouts");
 
 const indexRouter = require("./routes/indexRouter.js");
 const booksRouter = require("./routes/booksRouter.js");
 const genresRouter = require("./routes/genresRouter.js");
-const expressLayouts = require("express-ejs-layouts");
+const newBookRouter = require("./routes/newBookRouter.js");
 const authorsRouter = require("./routes/authorsRouter.js");
 
 const app = express();
@@ -24,6 +25,7 @@ app.use("/", indexRouter);
 app.use("/books", booksRouter);
 app.use("/authors", authorsRouter);
 app.use("/genres", genresRouter);
+app.use("/newbook", newBookRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, (err) => {

@@ -108,6 +108,77 @@ async function getBooksByGenre(genreId) {
   return { filteredBooks: rows, genre_name };
 }
 
+async function createBook({
+  title,
+  description,
+  publish_date,
+  author,
+  genre,
+  isbn,
+}) {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN"); // start transaction
+
+    // --- 1. Insert or get author ---
+    const { rows: authorRows } = await client.query(
+      `
+      INSERT INTO authors (name)
+      VALUES ($1)
+      ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+      RETURNING author_id
+      `,
+      [author],
+    );
+    const authorId = authorRows[0].author_id;
+
+    // --- 2. Insert or get genre ---
+    const { rows: genreRows } = await client.query(
+      `
+      INSERT INTO genres (genre_name)
+      VALUES ($1)
+      ON CONFLICT (genre_name) DO UPDATE SET genre_name = EXCLUDED.genre_name
+      RETURNING genre_id
+      `,
+      [genre],
+    );
+    const genreId = genreRows[0].genre_id;
+
+    // --- 3. Insert book ---
+    const { rows: bookRows } = await client.query(
+      `
+      INSERT INTO books (title, description, publish_date, isbn)
+      VALUES ($1, $2, $3, $4)
+      RETURNING book_id
+      `,
+      [title, description, publish_date, isbn],
+    );
+    const bookId = bookRows[0].book_id;
+
+    // --- 4. Insert into junction tables ---
+    await client.query(
+      `INSERT INTO book_authors (book_id, author_id) VALUES ($1, $2)`,
+      [bookId, authorId],
+    );
+
+    await client.query(
+      `INSERT INTO book_genres (book_id, genre_id) VALUES ($1, $2)`,
+      [bookId, genreId],
+    );
+
+    // --- Commit transaction ---
+    await client.query("COMMIT");
+
+    return bookId; // optionally return book ID
+  } catch (err) {
+    await client.query("ROLLBACK"); // undo everything if any step fails
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
 module.exports = {
   getAllBooks,
   getBookById,
@@ -116,4 +187,5 @@ module.exports = {
   getSingleAuthor,
   getAllGenres,
   getBooksByGenre,
+  createBook,
 };

@@ -15,7 +15,6 @@ exports.filterByGenre = async (req, res) => {
     const genreId = parseInt(req.params.genreId, 10);
     if (isNaN(genreId)) return res.status(400).send("Invalid Genre");
     const { filteredBooks, genre_name } = await db.getBooksByGenre(genreId);
-    console.log(filteredBooks);
     res.render("pages/books", {
       title: `Books by genre ${genre_name || "Selected Genre"}`,
       books: filteredBooks,
