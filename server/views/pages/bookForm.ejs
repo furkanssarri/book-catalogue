@@ -1,10 +1,10 @@
 <div class="container py-5">
-  <h1 class="mb-4 text-center">Add New Book</h1>
+  <h1 class="mb-4 text-center"><%- title %></h1>
 
   <form 
-    id="addBookForm" 
-    method="POST" 
-    action="/newbook"
+    id="bookForm" 
+    method="<%= method %>" 
+    action="<%= action %>"
     class="<%= errors ? 'was-validated' : '' %>"
     novalidate
   >
@@ -39,7 +39,7 @@
         required
         minlength="2"
         maxlength="100"
-        value="<%= old ? old.author : '' %>"
+        value="<%= old ? old.authors : '' %>"
       >
       <div class="invalid-feedback">
         <%= errors && errors.author ? errors.author.msg : "Please enter the author's full name (min. 2 characters)." %>
@@ -89,7 +89,7 @@
         required
         minlength="2"
         maxlength="50"
-        value="<%= old ? old.genre : '' %>"
+        value="<%= old ? old.genres : '' %>"
       >
       <div class="invalid-feedback">
         <%= errors && errors.genre ? errors.genre.msg : "Please enter a valid genre (min. 2 characters)." %>

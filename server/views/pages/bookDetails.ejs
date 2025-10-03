@@ -1,4 +1,4 @@
-<h1 class="display-4 mb-4 text-center"><%= book.title %></h1>
+<h1 class="display-4 mb-4 text-center"><%= book.title || "" %></h1>
 
 <div class="row justify-content-center">
   <!-- Cover -->
@@ -37,9 +37,17 @@
     <div class="description" style="white-space: pre-wrap;">
       <%= book.description || "No description available." %>
     </div>
-
-    <div class="mt-4">
+    <div class="mt-4 d-flex gap-2">
       <a href="/books" class="btn btn-outline-secondary">← Back to Books</a>
+      <a href="/books/<%= book.book_id %>/edit" class="btn btn-primary">
+          <i class="bi bi-pencil-square"></i> Edit
+      </a>
+      <form action="/books/<%= book.book_id %>/delete" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="btn btn-danger">
+          <i class="bi bi-trash"></i> Delete
+        </button>
+      </form>
     </div>
   </div>
 </div>

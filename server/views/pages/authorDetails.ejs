@@ -4,7 +4,7 @@
       <!-- Author Info -->
       <div class="col-lg-8 mx-auto">
         <div class="card shadow-sm">
-          <div class="card-body">
+          <div class="card-body py-5">
             <h1 class="card-title fw-bold mb-3"><%= author.name %></h1>
             <h5 class="text-muted mb-4">
               <i class="bi bi-geo-alt me-2"></i><%= author.country || "Unknown" %>
@@ -12,6 +12,17 @@
             <p class="card-text fs-6" style="white-space: pre-line;">
               <%= author.bio || "No biography available for this author." %>
             </p>
+            <div class="mt-4 d-flex gap-2">
+              <a href="/authors/<%= author.author_id %>/edit" class="btn btn-primary">
+                <i class="bi bi-pencil-square"></i> Edit Author
+              </a>
+                <form method="POST" action="/authors/<%= author.author_id %>/delete">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <button type="submit" class="btn btn-danger">
+                  <i class="bi bi-trash"></i> Delete Author
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

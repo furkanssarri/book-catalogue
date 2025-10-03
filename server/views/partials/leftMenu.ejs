@@ -1,4 +1,5 @@
-<nav class="bg-body-tertiary border-end p-3 d-flex flex-column" id="leftSidebar" style="height: 100%; overflow-y: auto;">
+<nav class="bg-body-tertiary border-end p-3 d-flex flex-column" id="leftSidebar"
+  style="height: 100%; overflow-y: auto;">
   <h5 class="mb-4 fw-bold">Library</h5>
 
   <div class="accordion" id="sidebarAccordion">
@@ -6,23 +7,23 @@
     <!-- Books -->
     <div class="accordion-item border-0">
       <h2 class="accordion-header" id="headingBooks">
-        <button class="accordion-button d-flex align-items-center <%= currentPath.startsWith('/books') ? '' : 'collapsed' %>"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseBooks"
-                aria-expanded="<%= currentPath.startsWith('/books') ? 'true' : 'false' %>"
-                aria-controls="collapseBooks">
+        <button
+          class="accordion-button d-flex align-items-center <%= currentPath.startsWith('/books') ? '' : 'collapsed' %>"
+          type="button" data-bs-toggle="collapse" data-bs-target="#collapseBooks"
+          aria-expanded="<%= currentPath.startsWith('/books') ? 'true' : 'false' %>" aria-controls="collapseBooks">
           <i class="bi bi-book me-2 fs-5"></i> Books
         </button>
       </h2>
       <div id="collapseBooks" class="accordion-collapse collapse <%= currentPath.startsWith('/books') ? 'show' : '' %>"
-           aria-labelledby="headingBooks"
-           data-bs-parent="#sidebarAccordion">
+        aria-labelledby="headingBooks" data-bs-parent="#sidebarAccordion">
         <div class="accordion-body p-0">
           <ul class="nav flex-column ms-3">
-            <li><a class="nav-link <%= currentPath === '/books' ? 'active' : '' %>" href="/books"><i class="bi bi-journal-text me-2 fs-5"></i>All Books</a></li>
-            <li><a class="nav-link <%= currentPath.includes('new') ? 'active' : '' %>" href="/books?filter=new"><i class="bi bi-stars me-2 fs-5"></i>New Arrivals</a></li>
-            <li><a class="nav-link <%= currentPath.includes('popular') ? 'active' : '' %>" href="/books?filter=popular"><i class="bi bi-fire me-2 fs-5"></i>Most Popular</a></li>
+            <li><a class="nav-link <%= currentPath === '/books' ? 'active' : '' %>" href="/books"><i
+                  class="bi bi-journal-text me-2 fs-5"></i>All Books</a></li>
+            <li><a class="nav-link <%= currentPath.includes('new') ? 'active' : '' %>" href="/books?filter=new"><i
+                  class="bi bi-stars me-2 fs-5"></i>New Arrivals</a></li>
+            <li><a class="nav-link <%= currentPath.includes('popular') ? 'active' : '' %>"
+                href="/books?filter=popular"><i class="bi bi-fire me-2 fs-5"></i>Most Popular</a></li>
           </ul>
         </div>
       </div>
@@ -31,22 +32,29 @@
     <!-- Authors -->
     <div class="accordion-item border-0">
       <h2 class="accordion-header" id="headingAuthors">
-        <button class="accordion-button d-flex align-items-center <%= currentPath.startsWith('/authors') ? '' : 'collapsed' %>"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseAuthors"
-                aria-expanded="<%= currentPath.startsWith('/authors') ? 'true' : 'false' %>"
-                aria-controls="collapseAuthors">
-          <i class="bi bi-pen me-2 fs-5"></i> Authors
+        <button
+          class="accordion-button d-flex align-items-center <%= currentPath.startsWith('/authors') ? '' : 'collapsed' %>"
+          type="button" data-bs-toggle="collapse" data-bs-target="#collapseAuthors"
+          aria-expanded="<%= currentPath.startsWith('/authors') ? 'true' : 'false' %>" aria-controls="collapseAuthors">
+          <i class="bi bi-person-lines-fill me-2 fs-5"></i> Authors
         </button>
       </h2>
-      <div id="collapseAuthors" class="accordion-collapse collapse <%= currentPath.startsWith('/authors') ? 'show' : '' %>"
-           aria-labelledby="headingAuthors"
-           data-bs-parent="#sidebarAccordion">
+      <div id="collapseAuthors"
+        class="accordion-collapse collapse <%= currentPath.startsWith('/authors') ? 'show' : '' %>"
+        aria-labelledby="headingAuthors" data-bs-parent="#sidebarAccordion">
         <div class="accordion-body p-0">
           <ul class="nav flex-column ms-3">
-            <li><a class="nav-link <%= currentPath === '/authors' ? 'active' : '' %>" href="/authors"><i class="bi bi-people me-2 fs-5"></i>All Authors</a></li>
-            <li><a class="nav-link <%= currentPath.includes('featured') ? 'active' : '' %>" href="/authors?filter=featured"><i class="bi bi-star me-2 fs-5"></i>Featured</a></li>
+            <li>
+              <a class="nav-link <%= currentPath === '/authors' ? 'active' : '' %>" href="/authors">
+                <i class="bi bi-people me-2"></i> All Authors
+              </a>
+            </li>
+            <li>
+              <a class="nav-link <%= currentPath && currentPath.includes('/new') ? 'active' : '' %>"
+                href="/authors/new">
+                <i class="bi bi-plus-circle me-2"></i> Add New Author
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -55,23 +63,24 @@
     <!-- Genres -->
     <div class="accordion-item border-0">
       <h2 class="accordion-header" id="headingGenres">
-        <button class="accordion-button d-flex align-items-center <%= currentPath.startsWith('/genres') ? '' : 'collapsed' %>"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseGenres"
-                aria-expanded="<%= currentPath.startsWith('/genres') ? 'true' : 'false' %>"
-                aria-controls="collapseGenres">
+        <button
+          class="accordion-button d-flex align-items-center <%= currentPath.startsWith('/genres') ? '' : 'collapsed' %>"
+          type="button" data-bs-toggle="collapse" data-bs-target="#collapseGenres"
+          aria-expanded="<%= currentPath.startsWith('/genres') ? 'true' : 'false' %>" aria-controls="collapseGenres">
           <i class="bi bi-tags me-2 fs-5"></i> Genres
         </button>
       </h2>
-      <div id="collapseGenres" class="accordion-collapse collapse <%= currentPath.startsWith('/genres') ? 'show' : '' %>"
-           aria-labelledby="headingGenres"
-           data-bs-parent="#sidebarAccordion">
+      <div id="collapseGenres"
+        class="accordion-collapse collapse <%= currentPath.startsWith('/genres') ? 'show' : '' %>"
+        aria-labelledby="headingGenres" data-bs-parent="#sidebarAccordion">
         <div class="accordion-body p-0">
           <ul class="nav flex-column ms-3">
-            <li><a class="nav-link <%= currentPath === '/genres' ? 'active' : '' %>" href="/genres"><i class="bi bi-list-ul me-2 fs-5"></i>All Genres</a></li>
-            <li><a class="nav-link <%= currentPath.includes('fiction') ? 'active' : '' %>" href="/genres?filter=fiction"><i class="bi bi-book-half me-2 fs-5"></i>Fiction</a></li>
-            <li><a class="nav-link <%= currentPath.includes('nonfiction') ? 'active' : '' %>" href="/genres?filter=nonfiction"><i class="bi bi-journal-richtext me-2 fs-5"></i>Non-Fiction</a></li>
+            <li><a class="nav-link <%= currentPath === '/genres' ? 'active' : '' %>" href="/genres"><i
+                  class="bi bi-list-ul me-2 fs-5"></i>All Genres</a></li>
+            <li><a class="nav-link <%= currentPath.includes('fiction') ? 'active' : '' %>"
+                href="/genres?filter=fiction"><i class="bi bi-book-half me-2 fs-5"></i>Fiction</a></li>
+            <li><a class="nav-link <%= currentPath.includes('nonfiction') ? 'active' : '' %>"
+                href="/genres?filter=nonfiction"><i class="bi bi-journal-richtext me-2 fs-5"></i>Non-Fiction</a></li>
           </ul>
         </div>
       </div>
