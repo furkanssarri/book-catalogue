@@ -108,6 +108,35 @@ async function getBooksByGenre(genreId) {
   return { filteredBooks: rows, genre_name };
 }
 
+async function getBooksByAuthor(authorId) {
+  try {
+    const { rows } = await pool.query(
+      `
+    SELECT
+      b.book_id,
+      b.title,
+      b.description,
+      b.publish_date,
+      b.isbn,
+      ARRAY_AGG(DISTINCT a.name) AS authors,
+      ARRAY_AGG(DISTINCT g.genre_name) AS genres
+    FROM books b
+    JOIN book_authors ba ON b.book_id = ba.book_id
+    JOIN authors a ON ba.author_id = a.author_id
+    LEFT JOIN book_genres bg ON b.book_id = bg.book_id
+    LEFT JOIN genres g ON bg.genre_id = g.genre_id
+    WHERE a.author_id = $1
+    GROUP BY b.book_id
+    ORDER BY b.title;
+    `,
+      [authorId],
+    );
+    return rows;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 async function createBook({
   title,
   description,
@@ -179,6 +208,73 @@ async function createBook({
   }
 }
 
+async function updateBook(id, { title, description, publish_date, isbn }) {
+  try {
+    const { rows } = pool.query(
+      `
+      UPDATE books
+      SET title = ($1), description = ($2), publish_date = ($3), isbn = ($4)
+      WHERE book_id = ($5)
+`,
+      [title, description, publish_date, isbn, id],
+    );
+    return rows;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function deleteBook(id) {
+  try {
+    await pool.query(`DELETE FROM books WHERE book_id = ($1)`, [id]);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function addNewAuthor({ name, country, bio }) {
+  try {
+    const { rows } = await pool.query(
+      `
+      INSERT INTO authors (name, country, bio)
+      VALUES ($1, $2, $3)
+      ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+      RETURNING author_id;
+      `,
+      [name, country, bio],
+    );
+
+    return rows[0];
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function updateAuthor(id, { name, country, bio }) {
+  try {
+    const { rows } = await pool.query(
+      `
+      UPDATE authors
+      SET name = ($1), country = ($2), bio = ($3)
+      WHERE author_id = ($4)
+  `,
+      [name, country, bio, id],
+    );
+
+    return rows;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function deleteAuthor(id) {
+  try {
+    await pool.query(`DELETE FROM authors WHERE author_id = ($1)`, [id]);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 module.exports = {
   getAllBooks,
   getBookById,
@@ -187,5 +283,11 @@ module.exports = {
   getSingleAuthor,
   getAllGenres,
   getBooksByGenre,
+  getBooksByAuthor,
   createBook,
+  updateBook,
+  addNewAuthor,
+  deleteBook,
+  updateAuthor,
+  deleteAuthor,
 };

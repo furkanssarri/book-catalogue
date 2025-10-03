@@ -1,6 +1,6 @@
 const db = require("./queryDb");
 
-exports.allGenresGet = async (req, res) => {
+exports.allGenresGet = async (_req, res) => {
   try {
     const allGenres = await db.getAllGenres();
     res.render("pages/genres", { title: "Genres", genres: allGenres });
