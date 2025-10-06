@@ -61,7 +61,6 @@ exports.editBookPost = async (req, res) => {
       isbn,
     };
     await db.updateBook(bookId, newBook);
-    console.log(newBook);
   } catch (err) {
     console.error(err);
   }
