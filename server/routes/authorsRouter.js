@@ -14,7 +14,7 @@ authorsRouter.post("/new", validateAuthor, authorsController.addNewAuthorPost);
 // edit author form + update
 authorsRouter.get("/:authorId/edit", authorsController.editAuthorGet);
 authorsRouter.post(
-  "/:authorId",
+  "/:authorId/edit",
   validateAuthor,
   authorsController.editAuthorPost,
 );

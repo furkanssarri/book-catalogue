@@ -67,7 +67,7 @@ exports.editAuthorGet = async (req, res) => {
     res.render("pages/authorForm", {
       title: "Edit Author",
       method: "POST",
-      action: `/authors/${req.params.authorId}/edit?_method=PUT`,
+      action: `/authors/${req.params.authorId}/edit`,
       errors: null,
       old: author,
     });

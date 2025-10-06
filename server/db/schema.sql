@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS books (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     publish_date DATE,
-    isbn VARCHAR(20) UNIQUE,
+    isbn VARCHAR(14) UNIQUE,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
