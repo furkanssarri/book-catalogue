@@ -18,6 +18,8 @@ exports.singleAuthorGet = async (req, res) => {
     res.render("pages/authorDetails", {
       title: "Author Details",
       author: author,
+      errorMessage: null,
+      booksByAuthor: null,
     });
   } catch (err) {
     console.error(err);
@@ -96,10 +98,14 @@ exports.deleteAuthor = async (req, res) => {
   try {
     const authorId = parseInt(req.params.authorId, 10);
     const booksByAuthor = await db.getBooksByAuthor(authorId);
-
     if (booksByAuthor.length > 0) {
-      console.error("Cannot delete author with linked books.");
-      return res.status(400).redirect("/authors");
+      return res.status(400).render("pages/authorDetails", {
+        title: "Author Details",
+        author: await db.getSingleAuthor(authorId),
+        errorMessage:
+          "Cannot delete author with associated books. Consider deleting those books first.",
+        booksByAuthor: booksByAuthor,
+      });
     }
 
     await db.deleteAuthor(authorId);
